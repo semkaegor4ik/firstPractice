@@ -1,19 +1,16 @@
 package com.university.testpo;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.junit.Rule;
 
-import java.util.concurrent.TimeUnit;
+import java.io.UnsupportedEncodingException;
 
 public class Main {
+    private static final FirstTest FIRST_TEST = new FirstTest();
+    @Rule
+    public static void main(String[] args) throws InterruptedException{
 
-    public static void main(String[] args) {
-        StartPage startPage = new StartPage();
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\semenovea\\chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get(startPage.getUrl());
+        FIRST_TEST.setup();
+        FIRST_TEST.loginTest();
 
     }
 }
