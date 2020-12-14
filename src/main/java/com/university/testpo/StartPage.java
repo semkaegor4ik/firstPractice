@@ -1,6 +1,7 @@
 package com.university.testpo;
 
 import lombok.Data;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,22 +13,29 @@ public class StartPage{
 
     public WebDriver driver;
 
-    @FindBy(xpath = "/html/body/div[3]/div[2]/header/div[2]/div[2]/div[2]/div/div[6]")
+    @FindBy(className = "AuthPopup")
     private WebElement firstLoginBtn;
-    @FindBy(xpath = "//*[@id=\"authorization_popup\"]/div[1]/form/div[4]/div[1]/button")
+    @FindBy(className = "SignIn__actions")
     private WebElement secondLoginBtn;
-    @FindBy(xpath = "//*[@id=\"authorization_popup\"]/div[1]/form/div[1]/div/label")
+    @FindBy(name = "login")
     private WebElement loginField;
-    @FindBy(xpath = "//*[@id=\"authorization_popup\"]/div[1]/form/div[2]/div/label")
+    @FindBy(name = "pass")
     private WebElement passwdField;
 
-    @FindBy(xpath = "/html/body/div[3]/div[2]/header/div[2]/div[2]/div[2]/div/div[6]/div[1]/div/div[1]/div/div[2]")
+    @FindBy(className = "HeaderUserName__name")
     private WebElement name;
 
     @FindBy(className = "MainHeader__city")
     private WebElement cityButton;
-    @FindBy(xpath = "/html/body/div[3]/div[2]/header/div[1]/div[2]/div[1]/div[6]/div[2]/div/div/div/div[3]/div[2]/ul/li[1]/a")
+
     private WebElement newCity;
+
+    @FindBy(partialLinkText = "Мой профиль")
+    private WebElement profile;
+
+    @FindBy(className = "HeaderUserName")
+    private WebElement headUsername;
+
 
 
     public StartPage(WebDriver driver) {
@@ -38,12 +46,15 @@ public class StartPage{
     public void inputLogin(String login) {
         loginField.sendKeys(login);
     }
+
     public void inputPasswd(String passwd) {
         passwdField.sendKeys(passwd);
     }
+
     public void clickFirstLoginBtn() {
         firstLoginBtn.click();
     }
+
     public void clickSecondLoginBtn() {
         secondLoginBtn.click();
     }
@@ -55,9 +66,19 @@ public class StartPage{
     public void clickCityBtn() {
         cityButton.click();
     }
-    public void clickCityChangeBtn() {
+
+    public void clickCityChangeBtn(String cityName) {
+        newCity = driver.findElement(By.partialLinkText(cityName));
         newCity.click();
     }
+    public void clickProfileBtn() {
+        profile.click();
+    }
+
+    public void clickHeaderUserNameBtn(){
+        headUsername.click();
+    }
+
     public String getCity() {
         return cityButton.getText();
     }

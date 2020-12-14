@@ -18,6 +18,7 @@ public class SecondTest {
     private static Properties property = new Properties();
     private static WebDriver driver;
     private static StartPage startPage;
+    private static ProfilePage profilePage;
     private static String chromedriver;
     private static String city;
     private static String email;
@@ -33,22 +34,38 @@ public class SecondTest {
             e.printStackTrace();
         }
 
+        email = property.getProperty("login");
+        password = property.getProperty("password");
         city = property.getProperty("city");
         chromedriver = property.getProperty("chromedriver");
         System.setProperty("webdriver.chrome.driver", chromedriver);
 
         driver = new ChromeDriver();
         startPage = new StartPage(driver);
+        profilePage = new ProfilePage(driver);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get(StartPage.URL);
     }
 
     @Test
-    public void loginTest() throws InterruptedException {
+    public void changeCityTest() throws InterruptedException {
+        startPage.clickFirstLoginBtn();
+        startPage.inputLogin(email);
+        startPage.inputPasswd(password);
+        Thread.sleep(10000);
+        startPage.clickSecondLoginBtn();
+
         startPage.clickCityBtn();
-        startPage.clickCityChangeBtn();
+        startPage.clickCityChangeBtn(city);
         Assert.assertEquals(startPage.getCity(), city);
+
+
+        startPage.clickHeaderUserNameBtn();
+        startPage.clickProfileBtn();
+        Assert.assertEquals(profilePage.getDeliveryAddress(), profilePage.getCurrentCityityName());
+
+
     }
 
     @AfterClass
