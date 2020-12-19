@@ -1,8 +1,9 @@
 package com.university.testpo;
 
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -10,35 +11,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-@RunWith(value = Parameterized.class)
-public class SecondTest {
+public class ThirdTest {
     private static Properties property = new Properties();
     private static WebDriver driver;
     private static StartPage startPage;
     private static ProfilePage profilePage;
     private static String chromedriver;
-    private String city;
+    private static String city;
     private static String email;
     private static String password;
-
-    public SecondTest(String city) {
-        this.city = city;
-    }
-
-    @Parameterized.Parameters
-    public static Collection<Object[]> GetParams()
-    {
-        return Arrays.asList(new Object[][]{
-                { "Абакан" }, { "Балаково" }, { "Самара" },{ "Белгород" }
-        });
-    }
 
 
 
@@ -52,6 +36,7 @@ public class SecondTest {
 
         email = property.getProperty("login");
         password = property.getProperty("password");
+        city = property.getProperty("city");
         chromedriver = property.getProperty("chromedriver");
         System.setProperty("webdriver.chrome.driver", chromedriver);
 
@@ -78,16 +63,9 @@ public class SecondTest {
 
         startPage.clickHeaderUserNameBtn();
         startPage.clickProfileBtn();
-        try {
-            Assert.assertEquals(profilePage.getDeliveryAddress(), profilePage.getCurrentCityityName());
-        }
-        catch (ComparisonFailure ex){
-            ex.getStackTrace();
-        }
-        finally {
-            startPage.clickHeaderUserNameBtn();
-            startPage.clickExitBtn();
-        }
+        Assert.assertEquals(profilePage.getDeliveryAddress(), profilePage.getCurrentCityityName());
+
+
     }
 
     @AfterClass

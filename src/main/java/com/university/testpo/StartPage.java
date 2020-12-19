@@ -33,6 +33,9 @@ public class StartPage{
     @FindBy(partialLinkText = "Мой профиль")
     private WebElement profile;
 
+    @FindBy(partialLinkText = "Выйти")
+    private WebElement exit;
+
     @FindBy(className = "HeaderUserName")
     private WebElement headUsername;
 
@@ -73,6 +76,10 @@ public class StartPage{
     }
     public void clickProfileBtn() {
         profile.click();
+    }
+
+    public void clickExitBtn(){
+        exit.click();
     }
 
     public void clickHeaderUserNameBtn(){

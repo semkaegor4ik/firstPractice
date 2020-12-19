@@ -22,7 +22,7 @@ public class ProfilePage {
     private WebElement currentCity;
 
     public String getDeliveryAddress(){
-        return deliveryAddress.getText().split(",")[0];
+        return deliveryAddress.getText().split(",")[0];                     //could take the cityname only from here
     }
 
     public String getCurrentCityityName(){
