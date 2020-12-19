@@ -1,4 +1,4 @@
-package com.university.testpo;
+package com.university.testpo.pages;
 
 import lombok.Data;
 import org.openqa.selenium.WebDriver;

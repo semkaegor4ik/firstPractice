@@ -1,4 +1,4 @@
-package com.university.testpo;
+package com.university.testpo.pages;
 
 import lombok.Data;
 import org.openqa.selenium.By;
@@ -15,10 +15,13 @@ public class StartPage{
 
     @FindBy(className = "AuthPopup")
     private WebElement firstLoginBtn;
+
     @FindBy(className = "SignIn__actions")
     private WebElement secondLoginBtn;
+
     @FindBy(name = "login")
     private WebElement loginField;
+
     @FindBy(name = "pass")
     private WebElement passwdField;
 
@@ -39,55 +42,47 @@ public class StartPage{
     @FindBy(className = "HeaderUserName")
     private WebElement headUsername;
 
+    @FindBy(partialLinkText = "Каталог товаров")
+    private WebElement catalog;
 
+    @FindBy(partialLinkText = "Красота и здоровье")
+    private WebElement beauty;
+
+    @FindBy(partialLinkText = "Зубные щетки")
+    private WebElement toothBrushes;
 
     public StartPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
-
-    public void inputLogin(String login) {
-        loginField.sendKeys(login);
-    }
-
-    public void inputPasswd(String passwd) {
-        passwdField.sendKeys(passwd);
-    }
-
-    public void clickFirstLoginBtn() {
-        firstLoginBtn.click();
-    }
-
-    public void clickSecondLoginBtn() {
-        secondLoginBtn.click();
-    }
-
     public String getName() {
         return name.getText();
     }
-
-    public void clickCityBtn() {
-        cityButton.click();
-    }
-
-    public void clickCityChangeBtn(String cityName) {
-        newCity = driver.findElement(By.partialLinkText(cityName));
-        newCity.click();
-    }
-    public void clickProfileBtn() {
-        profile.click();
-    }
-
-    public void clickExitBtn(){
-        exit.click();
-    }
-
-    public void clickHeaderUserNameBtn(){
-        headUsername.click();
-    }
-
     public String getCity() {
         return cityButton.getText();
     }
 
+    public void login(String email, String password) throws InterruptedException {
+        firstLoginBtn.click();
+        loginField.sendKeys(email);
+        passwdField.sendKeys(password);
+        Thread.sleep(10000);
+        secondLoginBtn.click();
+    }
+
+    public void changeCity(String city) {
+        cityButton.click();
+        newCity = driver.findElement(By.partialLinkText(city));
+        newCity.click();
+    }
+
+    public void openProfile() {
+        headUsername.click();
+        profile.click();
+    }
+
+    public void exetFromAccount() {
+        headUsername.click();
+        exit.click();
+    }
 }

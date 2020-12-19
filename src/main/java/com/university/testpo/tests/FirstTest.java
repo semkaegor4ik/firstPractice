@@ -1,5 +1,6 @@
-package com.university.testpo;
+package com.university.testpo.tests;
 
+import com.university.testpo.pages.StartPage;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -18,7 +19,6 @@ public class FirstTest {
     private static StartPage startPage;
     private static String email;
     private static String password;
-    private static String chromedriver;
 
 
     @BeforeClass
@@ -31,7 +31,7 @@ public class FirstTest {
 
         email = property.getProperty("login");
         password = property.getProperty("password");
-        chromedriver = property.getProperty("chromedriver");
+        String chromedriver = property.getProperty("chromedriver");
         System.setProperty("webdriver.chrome.driver", chromedriver);
 
         driver = new ChromeDriver();
@@ -43,11 +43,7 @@ public class FirstTest {
 
     @Test
     public void loginTest() throws InterruptedException {
-        startPage.clickFirstLoginBtn();
-        startPage.inputLogin(email);
-        startPage.inputPasswd(password);
-        Thread.sleep(10000);
-        startPage.clickSecondLoginBtn();
+        startPage.login(email, password);
         Assert.assertEquals(startPage.getName(), property.getProperty("name"));
     }
 

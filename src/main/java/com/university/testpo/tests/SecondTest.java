@@ -1,9 +1,10 @@
-package com.university.testpo;
+package com.university.testpo.tests;
 
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import com.university.testpo.pages.ProfilePage;
+import com.university.testpo.pages.StartPage;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -11,18 +12,32 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-public class ThirdTest {
-    private static Properties property = new Properties();
+@RunWith(value = Parameterized.class)
+public class SecondTest {
+    private static final Properties property = new Properties();
     private static WebDriver driver;
     private static StartPage startPage;
     private static ProfilePage profilePage;
-    private static String chromedriver;
-    private static String city;
+    private final String city;
     private static String email;
     private static String password;
+
+    public SecondTest(String city) {
+        this.city = city;
+    }
+
+    @Parameterized.Parameters
+    public static Collection<Object[]> GetParams()
+    {
+        return Arrays.asList(new Object[][]{
+                { "Абакан" }, { "Балаково" }, { "Самара" },{ "Белгород" }
+        });
+    }
 
 
 
@@ -36,8 +51,7 @@ public class ThirdTest {
 
         email = property.getProperty("login");
         password = property.getProperty("password");
-        city = property.getProperty("city");
-        chromedriver = property.getProperty("chromedriver");
+        String chromedriver = property.getProperty("chromedriver");
         System.setProperty("webdriver.chrome.driver", chromedriver);
 
         driver = new ChromeDriver();
@@ -50,22 +64,20 @@ public class ThirdTest {
 
     @Test
     public void changeCityTest() throws InterruptedException {
-        startPage.clickFirstLoginBtn();
-        startPage.inputLogin(email);
-        startPage.inputPasswd(password);
-        Thread.sleep(10000);
-        startPage.clickSecondLoginBtn();
+        startPage.login(email, password);
 
-        startPage.clickCityBtn();
-        startPage.clickCityChangeBtn(city);
+        startPage.changeCity(city);
         Assert.assertEquals(startPage.getCity(), city);
-
-
-        startPage.clickHeaderUserNameBtn();
-        startPage.clickProfileBtn();
-        Assert.assertEquals(profilePage.getDeliveryAddress(), profilePage.getCurrentCityityName());
-
-
+        startPage.openProfile();
+        try {
+            Assert.assertEquals(profilePage.getDeliveryAddress(), profilePage.getCurrentCityityName());
+        }
+        catch (ComparisonFailure ex){
+            ex.getStackTrace();
+        }
+        finally {
+            startPage.exetFromAccount();
+        }
     }
 
     @AfterClass
